@@ -1,22 +1,20 @@
-import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
-import base.SolutionBase;
+import solution.base.SolutionInf;
+import solution.base.SolutionManager;
 
 public class Main {
-	
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		
-		System.out.println("ProbNo 입력 : ");
-		String probNo = in.nextLine();
-		System.out.println();
-		
-		try {
-			SolutionBase sol = new SolutionBase(probNo);
+		try (Scanner in = new Scanner(System.in)) {
+			String qNo = String.format("%02d", in.nextInt());
+			String sNo = String.format("%02d", in.nextInt());
+			System.out.println();
 			
-			System.out.println(sol.getKlass().getMethod("getResult", null).invoke(probNo, args));
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			SolutionManager sm = SolutionManager.getInstance(qNo, sNo);
+			SolutionInf solution = sm.getSelectedSolutionClass();
+			
+			System.out.println(solution.getResult());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
 	}
